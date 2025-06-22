@@ -1,0 +1,346 @@
+\documentclass[12pt]{revtex4-2}
+\usepackage[utf8]{inputenc}
+
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{listings}
+\usepackage{verbatim}
+\usepackage[margin=1in]{geometry}
+\setlength{\parindent}{0pt}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\real}{\text{Re}}
+\newcommand{\imag}{\text{Im}}
+\newcommand{\Tr}{\text{Tr}}
+
+\begin{document}
+
+\title{Notes on: Pseudospin Orders in Monolayer, Bilayer, and Double Layer Graphene}
+\author{Joseph Roll}
+\affiliation{University of Texas at Austin}
+
+\begin{abstract}
+    These notes work through the first ten equations or so in the paper: Pseudospin Orders in Monolayer, Bilayer, and Double Layer Graphene.  This not only has a good review of basic condensed matter physics applied to graphene, but allows for more insight into the exchange energy (which is the whole reason I worked through it)
+\end{abstract}
+
+\maketitle
+
+\section{Derivation of hamiltonians}
+We will first derive the band hamiltonians for monolayer, bilayer, and double layer graphene.
+
+\subsection{Monolayer graphene}
+In our sublattice basis, we can write a tight-binding hamiltonian as a matrix:
+\begin{equation}
+    \mathcal{H}_\text{band}^\text{(ML)} = \begin{pmatrix}
+        0 & -t \\
+        -t & 0
+    \end{pmatrix} \iff \mathcal{H}_\text{band}^\text{(ML)}(\mathbf{k}) = \begin{pmatrix}
+        0 & -t f(\mathbf{k}) \\
+        -t f(\mathbf{k})^* & 0 
+    \end{pmatrix}.
+\end{equation}
+
+such that $f(\mathbf{k}) = \sum_j e^{i\mathbf{k}\cdot \mathbf{R}_j}$ with $\mathbf{R}_j$ defining our first nearest neighbors.  Thus, in momentum space we have energy bands of $\epsilon_\mathbf{k}^\pm = \pm|tf(\mathbf{k})|$.  We want to now write this energy, so our prior Hamiltonian, about our high-symmetry $K$ point.  This specific point depends on how we define our physical system's coordinates; for simplicity we will just take the convention of Ref [XX] (electronic properties of graphene).  This sets a physical system of
+\begin{gather}
+    \mathbf{a}_1 = \frac{a}{2} \begin{pmatrix}
+        3 \\ \sqrt{3}
+    \end{pmatrix} \qquad \mathbf{a}_2 = \frac{a}{2} \begin{pmatrix}
+        3 \\ -\sqrt{3}
+    \end{pmatrix} \\
+    \mathbf{R}_1 = \frac{a}{2} \begin{pmatrix}
+        1 \\ -1/\sqrt{3}
+    \end{pmatrix} \qquad \mathbf{R}_2 = \frac{a}{2} \begin{pmatrix}
+        -1 \\ -1/\sqrt{3}
+    \end{pmatrix} \qquad \mathbf{R}_3 = a \begin{pmatrix}
+        0 \\ 1/\sqrt{3}.
+    \end{pmatrix}
+\end{gather}
+
+Given these lattice vectors, our $K$ point is at $( \frac{4\pi}{3a},0)$.  We now want to Taylor expand our Hamiltonian, specifically our $f(\mathbf{k})$ term, about $K$.  To do so, we first must see how
+\begin{equation}
+    K \cdot \mathbf{R}_1 = \frac{2\pi}{3} \quad K \cdot \mathbf{R}_2 = -\frac{2\pi}{3} \quad K \cdot \mathbf{R}_3 = 0 
+    \Bigg\} \implies f(K) = \sum_j e^{i K \cdot \mathbf{R}_j} = 0.
+\end{equation}
+
+Recall how the first-order Taylor expansion of our function $f$ is
+\begin{align}
+    f(\mathbf{k}) &\approx f(\vec{0}) + \nabla f(\vec{0}) \cdot \mathbf{k} \\
+    f(\mathbf{k}-K) &\approx f(K) + \nabla f(K) \cdot (\mathbf{k}-K).
+\end{align}
+
+Now define $\mathbf{k} = K + \mathbf{q}$ for some small $q \ll K$.  Using this with our fact that $f(K) = 0$ yields
+\begin{equation}
+    f(\mathbf{q}) \approx \nabla f(K) \cdot \mathbf{q}.
+\end{equation}
+
+In determining our gradient at $K$, see that WLOG
+\begin{equation}
+    \frac{\partial f}{\partial k_x} = \sum_j i R_{j,x} e^{i \mathbf{k} \cdot \mathbf{R}_j}.
+\end{equation}
+
+Applying this to $K$ yields
+\begin{align}
+    \frac{\partial f}{\partial k_x}\bigg|_{\mathbf{k}=K} &= i\frac{a}{2}e^{i(2\pi/3)} - i\frac{a}{2} e^{-i(2\pi/3)} = 2\real \left[ i\frac{a}{2} e^{i (2\pi/3)} \right] = -2\frac{a}{2}\sin \frac{2\pi}{3} = -a \frac{\sqrt{3}}{2} \\
+    \frac{\partial f}{\partial k_y}\bigg|_{\mathbf{k}=K} &= -i\frac{a}{2\sqrt{3}} e^{i(2\pi/3)} - i\frac{a}{2\sqrt{3}} e^{-i(2\pi/3)} + i\frac{a}{\sqrt{3}} = -i \frac{a}{2\sqrt{3}}\left( 2\cos\frac{2\pi}{3} \right) + i\frac{a}{\sqrt{3}} = i\frac{\sqrt{3}a}{2}.
+\end{align}
+
+Given $\mathbf{q} = (q_x,q_y)^T = q(\cos \phi_\mathbf{q},\sin \phi_\mathbf{q})^T$, we have shown that
+\begin{equation}
+    f(\mathbf{q}) \approx -\frac{\sqrt{3}a}{2} \big( q_x + iq_y \big) = -\frac{\sqrt{3}aq}{2} \big( \cos\phi_\mathbf{q} + i\sin\phi_\mathbf{q} \big).
+\end{equation}
+
+Note how the Pauli spin matrices are
+\begin{equation}
+    \sigma^x = \begin{pmatrix}
+        0 & 1 \\ 1 & 0 
+    \end{pmatrix} \qquad \sigma^y = \begin{pmatrix}
+        0 & -i \\ i & 0
+    \end{pmatrix} \qquad \sigma^z = \begin{pmatrix}
+        1 & 0 \\0 & -1
+    \end{pmatrix}.
+\end{equation}
+
+Therefore, we can write our monolayer band hamiltonian as
+\begin{equation}
+    \mathcal{H}_\text{band}^\text{(ML)}(\mathbf{q}) = \frac{\sqrt{3}at}{2}q\begin{pmatrix}
+        0 & \cos\phi_\mathbf{q} - i\sin\phi_\mathbf{q} \\
+        \cos\phi_\mathbf{q} + i\sin\phi_\mathbf{q} & 0
+    \end{pmatrix}.
+\end{equation}
+
+Now define $v_F := \frac{\sqrt{3}at}{2\hbar}$ as our Fermi velocity; this not only works out to be units of velocity, but it also represents velocity when using the Dirac equation for our electrons here.  In terms of our band structure, it is the slope of our energy vs. momentum plot at our $K$ point.  We are assuming here that our $K$ point crosses at our fermi level, which simply assumes that we have an electrically neutral sample.  This is because we have two bands and only one is filled.  Our Hamiltonian then becomes
+\begin{equation}
+    \boxed{ \mathcal{H}_\text{band}^\text{(ML)}(\mathbf{q}) = \vec{h}_\mathbf{q}^{\text{(ML)}} \cdot \vec{\sigma} \qquad : \qquad \vec{h}_\mathbf{q}^{\text{(ML)}} := \hbar v_F q \big( \cos\phi_\mathbf{q} \hat{x} + \sin\phi_\mathbf{q} \hat{y} \big) }
+\end{equation}
+
+where $\vec{\sigma} = (\sigma^x,\sigma^y,\sigma^z)$.
+
+\subsection{Bilayer graphene}
+Note that we are specifically deriving the Hamiltonian for Bernal stacked graphene, not AA stacked.
+
+In the end, we want to derive our Hamiltonian for a pseudospin basis which is two dimensional.  However, we will start with a four dimensional system: a sublattice basis.  This has two sublattices for two layers.  We know that having stacked carbon atoms increases the system energy, and the Bernal (AB) stack has two carbon atoms stacked and two carbon atoms not stacked; these are the high energy and low energy contributions, respectively.  We will set up our full Hamiltonian as we did in the monolayer case, then integrate out the higher energy contributions.  Specifically this will treat those contributions as a second-order perturbation on our "ground-state" low energy states using a Schrieffer-Wolff transformation.  This is a good exercise, but not important for my work currently.  For the sake of time, I will do this at a later date.
+
+\subsection{Double layer graphene}
+Double layer graphene differs from bilayer graphene as we do not include interlayer hopping here; physically this has two graphene sheets separated by a insulating tunnel barrier.  This means that our full (4-dimensional) Hamiltonian is just two copies of our monolayer Hamiltonian: $H_\mathbf{q}^\text{(DL full)} = H_\mathbf{q}^\text{(ML)} \oplus H_\mathbf{q}^\text{(ML)}.$  However to make this a pseudospin we will work in a layer basis instead of a sublattice basis.  Since we always have equal contribution from both layers, we have
+\begin{equation}
+    \boxed{ H_\text{band}^\text{(DL)}(\mathbf{q}) = \vec{h}_\mathbf{q}^{\text{(DL)}} \cdot \vec{\sigma} \qquad : \qquad \vec{h}_\mathbf{q}^{\text{(DL)}} := \hbar v_F q \hat{z} }
+\end{equation}
+
+The paper defines this with $q \mapsto q - q_F$, which is the magnitude of our momentum with respect to our Fermi momentum.  This is more general, but doesn't really matter for our case since we are assuming that $q_F = 0$ which has our fermi level at our $K$ valley.  If we doped our system with electrons/holes then we would need to make this change.
+
+\subsection{Electron-electron interactions}
+We have already derived this expression from a general two-body interaction in my Hartree-Fock notes.  For some potential $V(\mathbf{q})$, this takes the second-quantized form
+\begin{equation}
+    H_\text{int} = \frac{1}{2A} \sum_{\mathbf{k},\mathbf{p},\mathbf{q}} \sum_{s,s'} V_{s,s'}(\mathbf{q}) \hat{c}_{\mathbf{k}+\mathbf{q},s}^\dagger \hat{c}_{\mathbf{p}-\mathbf{q},s'}^\dagger \hat{c}_{\mathbf{p},s'} \hat{c}_{\mathbf{k},s}
+\end{equation}
+
+where $s(s')$ represents our sublattice basis in the monolayer case and our sublayer basis in the bilayer/double-layer case.  Formally, it indexes two-dimensional pseudo-spin basis.  To make an expression that works for all cases, we need to account for intralayer interactions being stronger than interlayer interactions:
+\begin{equation}
+    \boxed{ H_\text{int} = \frac{1}{2A} \sum_{\mathbf{k},\mathbf{p},\mathbf{q}} \sum_{s,s'} V(\mathbf{q}) \hat{c}_{\mathbf{k}+\mathbf{q},s}^\dagger \hat{c}_{\mathbf{p}-\mathbf{q},s'}^\dagger \hat{c}_{\mathbf{p},s'} \hat{c}_{\mathbf{k},s} \left[ V^+(\mathbf{q}) + V^-(\mathbf{q})\sigma^z_{ss} \sigma^z_{s's'} \right] }
+\end{equation}
+
+with $V^\pm := (V_S \pm V_D)/2$ for our same $(S)$ and different $(D)$ layer interactions.  As the monolayer case is solely intralayer, it would have $V_S = V_D$. The reason this works is because
+\begin{align}
+    \text{Intralayer} &\implies s=s' \implies  V^+ + V^-\sigma^z_{ss} \sigma^z_{s's'} = V^+ + V^-(\pm1)(\pm1) = V_S \\
+    \text{Interlayer} &\implies s \neq s' \implies  V^+ + V^-\sigma^z_{ss} \sigma^z_{s's'} = V^+ + V^-(\pm1)(\mp1) = V_D.
+\end{align}
+
+\newpage
+\section{Helpful definitions and identities}
+For a general normalzed three dimensional vector $\hat{n}$, we write it as
+\begin{equation}
+    \hat{n} = (\sin\theta\cos\phi , \sin\theta\sin\phi , \cos\theta)^T.
+\end{equation}  
+
+So we can see how
+\begin{align}
+    \hat{n} \cdot \vec{\sigma} &= \sin\theta\cos\phi \begin{pmatrix}
+        0 & 1 \\ 1 & 0 
+    \end{pmatrix} + \sin\theta\sin\phi \begin{pmatrix}
+        0 & -i \\ i & 0 
+    \end{pmatrix} + \cos\theta \begin{pmatrix}
+        1 & 0 \\ 0 & -1
+    \end{pmatrix} \\
+    &= \begin{pmatrix}
+        \cos\theta & \sin\theta \cos\phi - i\sin\theta \sin\phi \\
+        \sin\theta \cos\phi + i\sin\theta \sin\phi & \cos\theta
+    \end{pmatrix}.
+\end{align}
+
+We can also define (I am still not 100\% sure why here) our state vector as
+\begin{equation}
+    |\hat{n} \rangle = \begin{pmatrix}
+        \cos\frac{\theta}{2} \\ \sin\frac{\theta}{2} \, e^{i\phi}
+    \end{pmatrix}.
+\end{equation}
+
+We will now show how $\langle \hat{n} | \vec{\sigma} | \hat{n} \rangle = \hat{n}$.  We can first consider the $\sigma^x$ element.
+\begin{align}
+    \langle \hat{n} | \sigma^x | \hat{n} \rangle &= \begin{pmatrix}
+        \cos\frac{\theta}{2} & \sin\frac{\theta}{2} \, e^{-i\phi}
+    \end{pmatrix} \begin{pmatrix}
+        0 & 1 \\ 1 & 0
+    \end{pmatrix} \begin{pmatrix}
+        \cos\frac{\theta}{2} \\ \sin\frac{\theta}{2} \, e^{i\phi}
+    \end{pmatrix} \\
+    &= \begin{pmatrix}
+        \cos\frac{\theta}{2} & \sin\frac{\theta}{2} \, e^{-i\phi}
+    \end{pmatrix} \begin{pmatrix}
+        \sin\frac{\theta}{2} \, e^{i\phi} \\ \cos\frac{\theta}{2}
+    \end{pmatrix} \\
+    &= \cos\frac{\theta}{2} \sin\frac{\theta}{2} \left( e^{i\phi} + e^{-i\phi} \right) \\
+    &= 2\cos\frac{\theta}{2} \sin\frac{\theta}{2} \cos\phi \\
+    &= \sin\theta \cos\theta \\
+    &= n_x.
+\end{align}
+
+Following this exact same process (just matrix multiplication), we can also show how $\langle \hat{n} | \sigma^y | \hat{n} \rangle = n_y$ and $\langle \hat{n} | \sigma^z | \hat{n} \rangle = n_z$.  Therefore, we have shown that
+\begin{equation}
+    \boxed{\langle \hat{n} | \vec{\sigma} | \hat{n} \rangle = \hat{n}}
+\end{equation}
+
+Next, we can see how 
+\begin{align}
+    | \hat{n} \rangle \langle \hat{n} | &= \begin{pmatrix}
+        \cos\frac{\theta}{2} \\ \sin\frac{\theta}{2} \, e^{i\phi}
+    \end{pmatrix}\begin{pmatrix}
+        \cos\frac{\theta}{2} & \sin\frac{\theta}{2} \, e^{-i\phi}
+    \end{pmatrix} \\
+    &= \begin{pmatrix}
+        \cos^2 \frac{\theta}{2} & \cos\frac{\theta}{2}\sin\frac{\theta}{2} e^{-\phi} \\ \cos\frac{\theta}{2}\sin\frac{\theta}{2} e^{\phi} & \cos^2 \frac{\theta}{2}
+    \end{pmatrix} \\
+    &= \begin{pmatrix}
+        (1 + \cos\theta)/2 & (\sin\theta \, e^{-i\phi})/2 \\
+        (\sin\theta \, e^{i\phi})/2 & (1 + \cos\theta)/2
+    \end{pmatrix} \\
+    &= \frac{1}{2} \left( \hat{1} + \vec{\sigma}\cdot\hat{n} \right).
+\end{align}
+
+So we know how 
+\begin{equation}\label{eqn:rho_identity}
+    \boxed{ |\hat{n}\rangle \langle \hat{n}| = \frac{1 + \vec{\sigma} \cdot \hat{n}}{2} }
+\end{equation}
+
+\newpage
+\section{Expectation values}
+\subsection{Band energy}
+We will first find the energy expectation value of our band hamiltonian given our pseudospin state vector at all $\mathbf{k}$.  We can also think of this energy as a functional over our state vector: $E_\text{band}[\hat{n}_\mathbf{k}]$.  To be consistent, we should technically use $\mathbf{q}$ here; the paper simply has $\mathbf{k}$ with respect to our $K$ point instead of the $\Gamma$ point like normal, so that is fine.
+\begin{align}
+    E_\text{band}[\hat{n}_\mathbf{k}] &= \langle \hat{n}_\mathbf{k} | \mathcal{H}_\text{band} | \hat{n}_\mathbf{k} \rangle \\
+    &= \sum_\mathbf{k} \langle \hat{n}_\mathbf{k} | \vec{h}_\mathbf{k} \cdot \vec{\sigma}  | \hat{n}_\mathbf{k} \rangle \\
+    &= \sum_\mathbf{k} \vec{h}_\mathbf{k} \cdot \langle \hat{n}_\mathbf{k} | \vec{\sigma}  | \hat{n}_\mathbf{k} \rangle.
+\end{align}
+
+We do not include the sum over $s,s'$ within $\mathcal{H}_\text{band}$ as we can think of this in its matrix representation.  At a glance, we may not think this last step is justified as we are taking something $\mathbf{k}$-depenent and passing it through a $\mathbf{k}$-dependent dot product.  This is fine as each element in our sum is simply a fixed $\mathbf{k}$, and a given $h_\mathbf{k}$ is a vector of scalars. Thus
+\begin{equation}
+    \boxed{ E_\text{band}[\hat{n}_\mathbf{k}] = \sum_\mathbf{k} \vec{h}_\mathbf{k} \cdot \hat{n}_\mathbf{k} }
+\end{equation}
+
+It is also helpful to rederive this without relying on our matrix representation explicitly, it really ensures we know what we are doing.  In full second-quantization, we instead have
+\begin{equation}
+    \mathcal{H}_\text{band} = \sum_{\mathbf{k},s,s'} \hat{c}_{\mathbf{k},s'}^\dagger (\vec{h}_\mathbf{k} \cdot \vec{\sigma}_{s's}) \hat{c}_{\mathbf{k},s} \implies E_\text{band}[\hat{n}_\mathbf{k}] = \sum_{\mathbf{k},s,s'} \langle \hat{n}_\mathbf{k} | \hat{c}_{\mathbf{k},s'}^\dagger (\vec{h}_\mathbf{k} \cdot \vec{\sigma}_{s's}) \hat{c}_{\mathbf{k},s} | \hat{n}_\mathbf{k} \rangle
+\end{equation}
+
+If we take the expectation value with respect to our state vector, we can see that 
+\begin{equation}
+    E = \Tr(\hat{\rho} \hat{H}) = \Tr(|\hat{n}_\mathbf{k}\rangle \langle \hat{n}_\mathbf{k}| \hat{H}) = \langle \hat{n}_\mathbf{k} | \hat{n}_\mathbf{k}\rangle \langle \hat{n}_\mathbf{k}| \hat{H} | \hat{n}_\mathbf{k} \rangle = \langle \hat{n}_\mathbf{k}| \hat{H} | \hat{n}_\mathbf{k} \rangle.
+\end{equation}
+
+As our Hamiltonian is now fixed for a given $\mathbf{k},s,s'$, our expectation value now falls onto our creation and annihilation operators.
+\begin{equation}\label{eqn:en_band}
+    E_\text{band}[\hat{n}_\mathbf{k}] = \sum_{\mathbf{k},s,s'} (\vec{h}_\mathbf{k} \cdot \vec{\sigma}_{s's}) \langle \hat{n}_\mathbf{k}| \hat{c}_{\mathbf{k},s'}^\dagger \hat{c}_{\mathbf{k},s} | \hat{n}_\mathbf{k} \rangle = \sum_{\mathbf{k},s,s'} (\vec{h}_\mathbf{k} \cdot \vec{\sigma}_{s's}) \rho_{s,s'}.
+\end{equation}
+
+Quickly reminding why this last equation is true, for now define $|n\rangle = (A_s,A_{s'})^T$.  Then
+\begin{equation}
+    \rho = |n\rangle \langle n| = \begin{pmatrix}
+        A_s \\ A_{s'}
+    \end{pmatrix} \begin{pmatrix}
+        A_s^* & A_{s'}^*
+    \end{pmatrix} = \begin{pmatrix}
+        A_s A_s^* & A_s A_{s'}^* \\
+        A_{s'}A_s^* & A_{s'}A_{s'}^*
+    \end{pmatrix} \to \text{basis} \to \begin{pmatrix}
+        \hat{c}_s^\dagger \hat{c}_s & \hat{c}_s^\dagger \hat{c}_{s'} \\
+        \hat{c}_{s'}^\dagger \hat{c}_s & \hat{c}_{s'}^\dagger \hat{c}_{s'}
+    \end{pmatrix}.
+\end{equation}
+
+This last expression just shows our basis in second-quantized form.  WLOG we can see how 
+\begin{align}
+    \langle \hat{c}_{s'}^\dagger \hat{c}_s \rangle  &= \langle \hat{n}| \hat{c}_{s'}^\dagger \hat{c}_s | \hat{n} \rangle \\
+    &= \langle\text{vac}| (A_s^*\hat{c}_s + A_{s'}^*\hat{c}_{s'}) \hat{c}_s^\dagger \hat{c}_s^\dagger (A_s\hat{c}_s^\dagger + A_{s'}\hat{c}_{s'}^\dagger) | \text{vac} \rangle \\
+    &\overset{(*)}{=} A_{s'}^*A_s \langle \text{vac} | \hat{c}_s \hat{c}_{s'} \hat{c}_{s'}^\dagger \hat{c}_s^\dagger | \text{vac}\rangle \\
+    &= A_{s'}^*A_s \\
+    &= \rho_{s,s'}.
+\end{align}
+
+To justify $(*)$, we can look at the four possible terms when expanding our multiplication.  Recall how our operators are fermionic, so $\{\hat{c},\hat{c}^\dagger\}=1$ and $\{\hat{c},\hat{c}\} = \{\hat{c}^\dagger,\hat{c}^\dagger\}=0$.  The four terms are
+\begin{align}
+    \hat{c}_s \hat{c}_{s'}^\dagger \hat{c}_s \hat{c}_s^\dagger &= -\hat{c}_s \hat{c}_s \hat{c}_{s'}^\dagger \hat{c}_s^\dagger = 0 \\
+    \hat{c}_s \hat{c}_{s'}^\dagger \hat{c}_s \hat{c}_{s'}^\dagger &= -\hat{c}_s \hat{c}_s \hat{c}_{s'}^\dagger \hat{c}_{s'}^\dagger = 0 \\
+    \hat{c}_{s'} \hat{c}_{s'}^\dagger \hat{c}_s \hat{c}_s^\dagger &= \hat{c}_s \hat{c}_{s'} \hat{c}_{s'}^\dagger \hat{c}_s^\dagger \neq 0 \\
+    \hat{c}_{s'} \hat{c}_{s'}^\dagger \hat{c}_s \hat{c}_{s'}^\dagger &= -\hat{c}_{s'} \hat{c}_s \hat{c}_{s'}^\dagger \hat{c}_{s'}^\dagger = 0.
+\end{align}
+
+Back to Eqn. \ref{eqn:en_band}, we can use Eqn. \ref{eqn:rho_identity} on our density matrix term.
+\begin{align}
+    E_\text{band}[\hat{n}_\mathbf{k}] &= \sum_{\mathbf{k},s,s'} (\vec{h}_\mathbf{k} \cdot \vec{\sigma}_{s's}) \left( \frac{1 + \vec{\sigma} \cdot \hat{n}_\mathbf{k}}{2} \right)_{s,s'} \\
+    \begin{split}
+        &= \sum_\mathbf{k} \bigg[ (h_\mathbf{k}^x - ih_\mathbf{k}^y)\left(\frac{n_\mathbf{k}^x - in_\mathbf{k}^y}{2}\right) + (h_\mathbf{k}^x + ih_\mathbf{k}^y)\left(\frac{n_\mathbf{k}^x + in_\mathbf{k}^y}{2}\right) \\
+        &\qquad\qquad\qquad\qquad\qquad\qquad\qquad + h_\mathbf{k}^z\left( \frac{1 + n_\mathbf{k}^z}{2} \right) - h_\mathbf{k}^z\left( \frac{1 - n_\mathbf{k}^z}{2} \right) \bigg]
+    \end{split} \\
+    &= \sum_\mathbf{k}\left\{ 2\real\left[ (h_\mathbf{k}^x - ih_\mathbf{k}^y)\left(\frac{n_\mathbf{k}^x - in_\mathbf{k}^y}{2}\right) \right] + h_\mathbf{k}^z n_\mathbf{k}^z \right\} \\
+    &= \sum_{\mathbf{k}} \left( h_\mathbf{k}^xn_\mathbf{k}^x + h_\mathbf{k}^yn_\mathbf{k}^y + h_\mathbf{k}^z n_\mathbf{k}^z \right).
+\end{align}
+
+So we have once again, but without hiding behind notation, we have our desired
+\begin{equation}
+    \boxed{ E_\text{band}[\hat{n}_\mathbf{k}] = \sum_{\mathbf{k}} \vec{h}_\mathbf{k} \cdot \hat{n}_\mathbf{k} }
+\end{equation}
+
+\subsection{Interaction (exchange) energy}
+For our interaction energy, we will only be considering our Fock exchange term.  This means that the contraction from our expectation value only includes the Fock channel.  Once again, I have done this in my Hartree-Fock notes.  HOWEVER, we must recall that keeping both the Hartree and Fock channels means we must include a factor of two; keeping just one will omit this factor.  Thus our exchange Hamiltonian, the mean-field approximation with the Fock channel, is
+\begin{equation}
+    \mathcal{H}_\text{int} \approx \mathcal{H}_\text{fock} = -\frac{1}{2A} \sum_{\mathbf{k},\mathbf{p}} \sum_{s,s'} V^{ss'}(\mathbf{p}-\mathbf{k}) \langle \hat{c}_{\mathbf{p},s}^\dagger \hat{c}_{\mathbf{p},s'} \rangle\hat{c}_{\mathbf{k},s'}^\dagger \hat{c}_{\mathbf{k},s}.
+\end{equation}
+
+We can now find the expectation value like we just did for the band energy
+\begin{align}
+    E_\text{int}[\hat{\mathbf{k}}] &\approx E_\text{fock}[\hat{\mathbf{k}}] \\
+    &= -\frac{1}{2A} \sum_{\mathbf{k},\mathbf{p}} \sum_{s,s'} V^{ss'}(\mathbf{p}-\mathbf{k}) \langle \hat{c}_{\mathbf{p},s}^\dagger \hat{c}_{\mathbf{p},s'} \rangle \langle \hat{c}_{\mathbf{k},s'}^\dagger \hat{c}_{\mathbf{k},s} \rangle \\
+    &= -\frac{1}{2A} \sum_{\mathbf{k},\mathbf{p}} \sum_{s,s'} V^{ss'}(\mathbf{p}-\mathbf{k}) \left( \frac{1 + \vec{\sigma} \cdot \hat{n}_\mathbf{p}}{2} \right)_{s,s'} \left( \frac{1 + \vec{\sigma} \cdot \hat{n}_\mathbf{k}}{2} \right)_{s',s}.
+\end{align}
+
+With $V^{ss} = V^{s's'} = V_S$ and $V^{ss'} = V^{s's} = V_D$, we have 
+\begin{multline}
+    E_\text{int}[\hat{\mathbf{k}}] = -\frac{1}{2A} \sum_{\mathbf{k},\mathbf{p}} \bigg\{\left[ \left( \frac{1}{2} + \frac{n_\mathbf{p}^z}{2} \right)\left( \frac{1}{2} + \frac{n_\mathbf{k}^z}{2} \right) + \left( \frac{1}{2} - \frac{n_\mathbf{p}^z}{2} \right)\left( \frac{1}{2} - \frac{n_\mathbf{k}^z}{2} \right) \right] V_S(\mathbf{p}-\mathbf{k}) \\
+    + \left[ \left( \frac{n_\mathbf{p}^x - in_\mathbf{p}^y}{2} \right)\left( \frac{n_\mathbf{k}^x + in_\mathbf{k}^y}{2} \right) + \left( \frac{n_\mathbf{p}^x + in_\mathbf{p}^y}{2} \right)\left( \frac{n_\mathbf{k}^x - in_\mathbf{k}^y}{2} \right) \right]V_D(\mathbf{p}-\mathbf{k})\bigg\}.
+\end{multline}
+
+Our $V_S$ terms become
+\begin{equation}
+    \left( \frac{1}{4} + \frac{n_\mathbf{k}^z}{4} + \frac{n_\mathbf{p}^z}{4} + \frac{n_\mathbf{p}^z n_\mathbf{k}^z}{2} \right)\left( \frac{1}{4} - \frac{n_\mathbf{k}^z}{4} - \frac{n_\mathbf{p}^z}{4} + \frac{n_\mathbf{p}^z n_\mathbf{k}^z}{2} \right) = \frac{1}{2}\big( 1 + n_\mathbf{p}^z n_\mathbf{k}^z \big).
+\end{equation}
+
+Our $V_D$ terms become
+\begin{equation}
+    2\real\left[ \left( \frac{n_\mathbf{p}^x - in_\mathbf{p}^y}{2} \right)\left( \frac{n_\mathbf{k}^x + in_\mathbf{k}^y}{2} \right) \right] = 2\frac{n_\mathbf{p}^x n_\mathbf{k}^x + n_\mathbf{p}^y n_\mathbf{k}^y}{4} = \frac{1}{2}\big( n_\mathbf{k}^x n_\mathbf{p}^x + n_\mathbf{k}^y n_\mathbf{p}^y \big).
+\end{equation}
+
+Combining these two results, we get the same result as in the paper:
+\begin{equation}
+    \boxed{ E_\text{int}[\hat{n}_\mathbf{k}] = -\frac{1}{4A} \sum_{\mathbf{k},\mathbf{p}} \left[ (1 + n_\mathbf{k}^z n_\mathbf{p}^z)V_S(\mathbf{k}-\mathbf{p}) + (n_\mathbf{k}^x n_\mathbf{p}^x + n_\mathbf{k}^y n_\mathbf{p}^y) V_D(\mathbf{k}-\mathbf{p}) \right] }
+\end{equation}
+
+The main purpose of these notes is this final result here, the exchange (Fock) energy is lowered when state vectors point along the same direction (note the negative sign out front).  So physically, the exchange interaction wants our wavefunctions to be more alike across our values of $\mathbf{k}$.
+
+\end{document}
