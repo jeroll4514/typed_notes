@@ -466,26 +466,26 @@ Recall that the magnetic moment parallel to $H$, in our $T=0$ contribution, is g
 \end{equation}
 
 We can also define our (two-dimensional) Fermi surface from Eqn. \ref{eqn:area-n}, 
-\begin{equation}
-    \mathcal{A} := A(X) = \frac{2\pi eH}{\hbar}X.
+\begin{equation}\label{eqn:fermi-surface-area}
+    \mathcal{A}_\text{FS} := A(X) = \frac{2\pi eH}{\hbar}X.
 \end{equation}
 
 So when we are taking our $\partial_H$ derivative, we will have
 \begin{equation}
-    X = \frac{\hbar\mathcal{A}}{2\pi e}\frac{1}{H} \implies \frac{\partial X}{\partial H} = -\frac{\hbar\mathcal{A}}{2\pi e} \frac{1}{H^2}
+    X = \frac{\hbar\mathcal{A}_\text{FS}}{2\pi e}\frac{1}{H} \implies \frac{\partial X}{\partial H} = -\frac{\hbar\mathcal{A}_\text{FS}}{2\pi e} \frac{1}{H^2}
 \end{equation}
 
 we can safely ignore the $H^2$ term out front as it simply will yield a term proportional to $H \propto 1/X$ times our bracket terms in Eqn. \ref{eqn:potential-step}.  While it immediately seems that is not justified, since we have a term proportional to $X^2$ in square brackets, this is fine because the terms in square brackets are actually bounded!  The $N$ term constantly gets redefined as $X$ increases, meaning that the $1/X$ prefactor will kill that term for large enough $X$.  This is more easily seen through the Fourier series version, where we obtain a factor of $1/X$ times a sum over cosine terms.  So assuming our $H^2$ prefactor is constant, taking the (negative) derivative of our expressions lead to
 \begin{equation}
-    \boxed{ \delta \tilde{M} = \frac{\beta\mathcal{A}V\delta\kappa}{4\pi^3} \big[ X - (N+1) \big] = \beta \, \delta N_0\big[ X - (N+1) \big]}
+    \boxed{ \delta \tilde{M} = \frac{\beta\mathcal{A}_\text{FS}V\delta\kappa}{4\pi^3} \big[ X - (N+1) \big] = \beta \, \delta N_0\big[ X - (N+1) \big]}
 \end{equation}
 
-where $\delta N_0 := \mathcal{A}V\delta\kappa/4\pi^3$ is the number of particles in the two-dimensional slab for $H=0$ for any particular value of $\mathcal{A}$; however our particular value of $\mathcal{A}$ or $\zeta$ may actually change with $H$.  We can take this derivative for our Fourier series expression too, which yields
+where $\delta N_0 := \mathcal{A}_\text{FS}V\delta\kappa/4\pi^3$ is the number of particles in the two-dimensional slab for $H=0$ for any particular value of $\mathcal{A}$; however our particular value of $\mathcal{A}$ or $\zeta$ may actually change with $H$.  We can take this derivative for our Fourier series expression too, which yields
 \begin{equation}
     \boxed{ \delta \tilde{M} = -\beta \delta N_0 \sum_{p=1}^\infty \frac{\sin\big[ 2\pi  p(X - 1/2) \big]}{\pi p} }
 \end{equation}
 
-While we have shown that our magnetization will oscillate, also shown pictorially in Fig. \ref{fig:oscillations-mag}, we have not show how it has anything to do with our Fermi surface area $\mathcal{A}_\text{FS}$ (which is the whole reason we are studying it).  Recall that $x = n + 1/2$ when taking our discretized Landau level energies; $X$ is defined as the $x$ for our fermi level.  Thus from Eqn. \ref{eqn:area-n}, we have the area of our FS 
+While we have shown that our magnetization will oscillate, also shown pictorially in Fig. \ref{fig:oscillations-mag}, we have not show how it has anything to do with our Fermi surface area $\mathcal{A}_\text{FS}$ (which is the whole reason we are studying it).  Recall that $x = n + 1/2$ when taking our discretized Landau level energies; $X$ is defined as the $x$ for our fermi level.  Thus from Eqn. \ref{eqn:fermi-surface-area}, we have the area of our FS 
 \begin{equation}
     \mathcal{A}_\text{FS} = \frac{2\pi eH X}{\hbar} \implies X = \frac{\hbar \mathcal{A}_\text{FS}}{2\pi eH}.
 \end{equation}
