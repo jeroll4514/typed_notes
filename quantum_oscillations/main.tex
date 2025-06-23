@@ -45,7 +45,7 @@ From Gauss' law, we know how there are no magnetic monopoles:  $\nabla \cdot \ma
     &= \nabla \times \left(\mathbf{E} + \frac{\partial\mathbf{A}}{\partial t} \right).
 \end{align}
 
-Therefore there exists a scalar potential $\varphi$ such that $\mathbf{E} + \partial_t\mathbf{A} = -\nabla\varphi$.  So $\mathbf{E} = -\nabla\varphi - \partial_t\mathbf{A}$.  Applying this to the Lorentz for some charged particle (with charge $q$ and mass $m$), Newton's second law states
+Therefore there exists a scalar potential $\varphi$ such that $\mathbf{E} + \partial_t\mathbf{A} = -\nabla\varphi$.  So $\mathbf{E} = -\nabla\varphi - \partial_t\mathbf{A}$.  Applying this to the Lorentz force for some charged particle (with charge $q$ and mass $m$), Newton's second law states
 \begin{align}
     \mathbf{F} = m\ddot{\mathbf{x}} &= q\mathbf{E} + q\mathbf{v}\times\mathbf{B} \\
     &= -q\nabla\varphi - q\frac{\partial \mathbf{A}}{\partial t} + q\mathbf{v}\times(\nabla \times \mathbf{A}).
@@ -374,7 +374,7 @@ In order to deal with our derivatives with respect to $r$, we will define a cont
 
 From the chain rule, we can also see that
 \begin{equation}
-    \left( \frac{\partial\epsilon}{\partial x} \right)_\kappa = \left( \frac{\partial\epsilon}{\partial A} \right)_\kappa \left( \frac{\partial A}{\partial x} \right)_\kappa = \left(\frac{\hbar^2}{2m}\right)\left( \frac{2\pi eH}{\hbar} \right) = \frac{e\hbar}{m}H = \beta H.
+    \left( \frac{\partial\epsilon}{\partial x} \right)_\kappa = \left( \frac{\partial\epsilon}{\partial A} \right)_\kappa \left( \frac{\partial A}{\partial x} \right)_\kappa = \frac{1}{(\partial A/\partial\epsilon)}\left( \frac{2\pi eH}{\hbar} \right) = \frac{2\pi e}{\hbar(\partial A/\partial\epsilon)}H = \beta H.
 \end{equation}
 
 Therefore changing our integration variable from $r \to x$ implies that 
