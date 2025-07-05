@@ -45,7 +45,7 @@ From Gauss' law, we know how there are no magnetic monopoles:  $\nabla \cdot \ma
     &= \nabla \times \left(\mathbf{E} + \frac{\partial\mathbf{A}}{\partial t} \right).
 \end{align}
 
-Therefore there exists a scalar potential $\varphi$ such that $\mathbf{E} + \partial_t\mathbf{A} = -\nabla\varphi$.  So $\mathbf{E} = -\nabla\varphi - \partial_t\mathbf{A}$.  Applying this to the Lorentz force for some charged particle (with charge $q$ and mass $m$), Newton's second law states
+Therefore there exists a scalar potential $\varphi$ such that $\mathbf{E} + \partial_t\mathbf{A} = -\nabla\varphi$.  So $\mathbf{E} = -\nabla\varphi - \partial_t\mathbf{A}$.  Applying this to the Lorentz force for some charged particle (with charge $q$ and mass $m$) [Appendix A], Newton's second law states
 \begin{align}
     \mathbf{F} = m\ddot{\mathbf{x}} &= q\mathbf{E} + q\mathbf{v}\times\mathbf{B} \\
     &= -q\nabla\varphi - q\frac{\partial \mathbf{A}}{\partial t} + q\mathbf{v}\times(\nabla \times \mathbf{A}).
@@ -53,7 +53,7 @@ Therefore there exists a scalar potential $\varphi$ such that $\mathbf{E} + \par
 
 We can also rewrite the central term on the RHS with the chain rule.
 \begin{equation}
-    \frac{d\mathbf{A}}{dt} = \frac{\partial \mathbf{A}}{\partial t} + \sum_i \frac{\partial x_j}{\partial t}\frac{\partial \mathbf{A}}{\partial x_j} = \frac{\partial \mathbf{A}}{\partial t} + (\mathbf{v} \times \nabla)\mathbf{A} \implies \frac{\partial \mathbf{A}}{\partial t} = \frac{d\mathbf{A}}{dt} - (\mathbf{v} \cdot \nabla)\mathbf{A}.
+    \frac{d\mathbf{A}}{dt} = \frac{\partial \mathbf{A}}{\partial t} + \sum_j \frac{\partial x_j}{\partial t}\frac{\partial \mathbf{A}}{\partial x_j} = \frac{\partial \mathbf{A}}{\partial t} + (\mathbf{v} \cdot \nabla)\mathbf{A} \implies \frac{\partial \mathbf{A}}{\partial t} = \frac{d\mathbf{A}}{dt} - (\mathbf{v} \cdot \nabla)\mathbf{A}.
 \end{equation}
 
 This actually helps us if we rewrite the rightmost term on the RHS.  We could either use a vector identity, or use the Levi-Civita tensor to quickly see where it comes from.
@@ -96,7 +96,7 @@ This is the exact form of our generatized potential function (Eqn. \ref{eqn:nonc
 \end{equation}
 
 Our Lagrangian is then 
-\begin{equation}
+\begin{equation}\label{eqn:lagrangian}
     \mathcal{L} = T - U = \frac{1}{2}m \mathbf{v}\cdot\mathbf{v} - q\varphi + q\mathbf{v}\cdot\mathbf{A}.
 \end{equation}
 
@@ -222,12 +222,12 @@ This bounds our $k_z$ values above and below; with our quantized area for $(k_x,
 When we think of electrons in an external magnetic field, we will often define a cylcotron frequency $\omega_c = eH/m_e$ as we did in Section IIA.  This, however, is for a bare electron and is traveling in a circle (or helix).  In metals, we, by definition, have a Fermi surface (FS) which is not guaranteed to be circular.  Our electron will travel on a cut of our FS, as shown below, so we will need to define a new frequency.  It is of the same form as our prior cyclotron frequency with an effective mass; we find this effective mass in this subsection.
 \par
 
-Recall how our momentum is $\mathbf{p} = \hbar\mathbf{k}$.  So our Lorentz force (Newton's second law with $\mathbf{F} = \dot{\mathbf{p}}$) has
+Recall how our momentum is $\mathbf{p} = \hbar\mathbf{k}$.  So our Lorentz force (Newton's second law with $\mathbf{F} = \dot{\mathbf{p}}$) [Appendix A] has
 \begin{equation}\label{eqn:lorentz-force}
     \hbar\dot{\mathbf{k}} = -e (\mathbf{v} \times \mathbf{H}) \iff \hbar\frac{d\mathbf{k}}{dt} = -e\left( \frac{d\mathbf{r}}{dt} \times \mathbf{H} \right).
 \end{equation}
 
-Since the Lorentz force here is perpendicular to $\mathbf{v}$, it does no work on our electron.  Thus our energy is constant along our orbit as $\mathbf{k}$ changes with time.  We also need to recall that $\mathbf{v} = \hbar^{-1}\nabla_\mathbf{k}\epsilon_\mathbf{k}$ [Appendix A].  From this, we know that our velocity is normal to our constant energy cut.  Since $\dot{\mathbf{k}}$ is also perpendicular to $\mathbf{H}$, from our Lorentz force cross product, \underline{our electron must trace the intersection of our FS and the plane normal to $\mathbf{H}$}.  If we integrate Eqn. \ref{eqn:lorentz-force} with respect to time, 
+Since the Lorentz force here is perpendicular to $\mathbf{v}$, it does no work on our electron.  Thus our energy is constant along our orbit as $\mathbf{k}$ changes with time.  We also need to recall that $\mathbf{v} = \hbar^{-1}\nabla_\mathbf{k}\epsilon_\mathbf{k}$ [Appendix B].  From this, we know that our velocity is normal to our constant energy cut.  Since $\dot{\mathbf{k}}$ is also perpendicular to $\mathbf{H}$, from our Lorentz force cross product, \underline{our electron must trace the intersection of our FS and the plane normal to $\mathbf{H}$}.  If we integrate Eqn. \ref{eqn:lorentz-force} with respect to time, 
 \begin{equation}
     \hbar(\mathbf{k} - \mathbf{k}_0) = -e(\mathbf{r} - \mathbf{r}_0)\times\mathbf{H} \implies \hbar|\mathbf{k} - \mathbf{k}_0| = e|\mathbf{r} - \mathbf{r}_0||\mathbf{H}|\sin\theta.
 \end{equation}
@@ -413,7 +413,7 @@ where our $\epsilon(X)$ term vanishes as $\epsilon(X) = \zeta$.  Thus
     \int_{1/2}^{N+1/2}\big[\epsilon(x)-\zeta\big]dx \approx \int_0^X \big[\epsilon(x)-\zeta\big]dx - \frac{1}{2}\beta H \Delta^2 - \frac{1}{2}\left[ \epsilon(0) + \frac{1}{4}\beta(0)H - \zeta \right].
 \end{equation}
 
-While this handles our integral term, we still have our functions $\epsilon,\beta$ evaluated at $x \in \{1/2,N+/2\}$.  We want these in terms of our values at $x \in \{0,X\}$, so we can Taylor expand once again.  Expanding at $x=1/2$, we get
+While this handles our integral term, we still have our functions $\epsilon,\beta$ evaluated at $x \in \{1/2,N+1/2\}$.  We want these in terms of our values at $x \in \{0,X\}$, so we can Taylor expand once again.  Expanding at $x=1/2$, we get
 \begin{gather}
     \epsilon\left( \frac{1}{2} \right) \approx \epsilon(0) + \frac{1}{2}\epsilon'(0) = \epsilon(0) + \frac{1}{2}\beta(0)H \\
     \beta\left( \frac{1}{2} \right) \approx \beta(0) + \frac{1}{2}\beta'(0).
@@ -425,7 +425,7 @@ Expanding at $x = N + 1/2 = X - \Delta$, we get
     \beta\left(N + \frac{1}{2}\right) = \beta(X-\Delta) \approx \beta - \Delta \beta'(X).
 \end{gather}
 
-When substituting these approximations of $\beta$ into Eqn. \ref{eqn:dO-over-D-pre-expansion}, we will exclude the $\beta'H$ terms when compared to our $\beta H$ terms; this is because the derivative ($1/x$) here is essentially comparing $1/n$ to $1$.  Combining the new bounds of integration with these Taylor expansions, we can rewrite Eqn. \ref{eqn:dO-over-D-pre-expansion} as 
+When substituting these approximations of $\beta$ into Eqn. \ref{eqn:dO-over-D-pre-expansion}, we will exclude the $\beta'H$ terms when compared to our $\beta H$ terms; this is because the derivative ($1/x$) here is essentially comparing $1/N$ to $1$.  Combining the new bounds of integration with these Taylor expansions, we can rewrite Eqn. \ref{eqn:dO-over-D-pre-expansion} as 
 \begin{multline}
     \frac{\delta\Omega}{D} \approx \int_0^X \big[\epsilon(x)-\zeta\big]dx  - \frac{1}{2}\beta H \Delta^2 - \frac{1}{2}\left[ \epsilon(0) + \frac{1}{4}\beta(0)H - \zeta \right] \\
      - \frac{1}{2}\beta H\Delta + \frac{1}{2}\big[\epsilon(0)-\zeta\big] + \frac{1}{4}\beta(0)H + \frac{1}{12}\big[ \beta - \beta(0) \big]H.
@@ -503,7 +503,49 @@ As our magnetization is oscillatory in $X$, it must be oscillatory in $\hbar\mat
 It is important to think now about where these oscillations actually come from.  Working backwards, all of our important terms here arise from our $\Delta$ dependent terms.  Since $\Delta := X - (N + 1/2)$, this physically represents the energy difference between the highest occupied Landau level and the actual fermi level.  Since that is constantly changing as our tubes cross our Fermi surface, that gives rise to oscillations in our magnetisation through the oscillations in our thermodynamic potential $\Omega$.  
 
 \newpage
-\section{Appendix: Group velocity of a given state}
+\section{Appendix A: Lorentz Force}
+We will now derive the Lorentz force, which shows the force acting upon a charged particle given some external electric and magnetic field.  Assuming our particle has mass $m$ and charge $q$, then our electric field is $\mathbf{E} = -\nabla\varphi - \partial_t\mathbf{A}$ and our magnetic field is $\mathbf{B} = \nabla\times\mathbf{A}$.  We can use Section IA to see that our Lagrangian (Eqn. \ref{eqn:lagrangian}) is 
+\begin{equation}
+    \mathcal{L} = \frac{1}{2}m\mathbf{v}\cdot\mathbf{v} - q\varphi + q\mathbf{v} \cdot \mathbf{A}.
+\end{equation}
+
+WLOG we can look at Lagrange's equation for our $x$ componet of $\mathbf{x}=(x,y,z)$.
+\begin{equation}
+    \frac{d}{dt}\frac{\partial\mathcal{L}}{\partial \dot{x}} = \frac{\partial \mathcal{L}}{\partial x}.
+\end{equation}
+
+First finding our LHS, we see 
+\begin{align}
+    \frac{d}{dt}\frac{\partial\mathcal{L}}{\partial\dot{x}} &= \frac{d}{dt}\left( m\dot{x} + qA_x \right) \\
+    &= m\ddot{x} + q\left( \frac{\partial A_x}{\partial t} + \dot{x}\frac{\partial A_x}{\partial x} + \dot{y}\frac{\partial A_x}{\partial y} + \dot{z}\frac{\partial A_x}{\partial z} \right).
+\end{align}
+
+Then our prior RHS is 
+\begin{align}
+    \frac{\partial\mathcal{L}}{\partial x} &= -q\frac{\partial\varphi}{\partial x} + q\mathbf{v} \cdot \frac{\partial A}{\partial x} \\
+    &= -q\frac{\partial\varphi}{\partial x} + q\left( \dot{x}\frac{\partial A_x}{\partial x} + \dot{y}\frac{\partial A_y}{\partial x} + \dot{z}\frac{\partial A_z}{\partial x} \right).
+\end{align}
+
+Substituting these back in, we can see how 
+\begin{equation}
+    m\ddot{x} + q\left( \frac{\partial A_x}{\partial t} + \dot{x}\frac{\partial A_x}{\partial x} + \dot{y}\frac{\partial A_x}{\partial y} + \dot{z}\frac{\partial A_x}{\partial z} \right) = -q\frac{\partial\varphi}{\partial x} + q\left( \dot{x}\frac{\partial A_x}{\partial x} + \dot{y}\frac{\partial A_y}{\partial x} + \dot{z}\frac{\partial A_z}{\partial x} \right).
+\end{equation}
+
+Gathering terms, we get 
+\begin{align}
+    m\ddot{x} &= q\left(-\frac{\partial\varphi}{\partial x} - \frac{\partial A_x}{\partial t}\right) + q\left[ \dot{y}\left( \frac{\partial A_y}{\partial x} - \frac{\partial A_x}{\partial y} \right) - \dot{z}\left( \frac{\partial A_x}{\partial z} - \frac{\partial A_z}{\partial x} \right) \right] \\
+    &= q E_x + q\left[ \dot{y}\big(\nabla\times\mathbf{A}\big)_z - \dot{z}\big( \nabla\times\mathbf{A} \big)_y \right] \\
+    &= q E_x + q\left[ \dot{y}B_z - \dot{z}B_y \right] \\
+    &= q E_x + q\left( \mathbf{v} \times \mathbf{B} \right)_x.
+\end{align}
+
+We have the same argument for the $y$ and $z$ component here.  Therefore we have derived our Lorentz force 
+\begin{equation}
+    \boxed{ \mathbf{F} = q\mathbf{E} + q\mathbf{v}\times\mathbf{B} }
+\end{equation}
+
+\newpage
+\section{Appendix B: Group velocity of a given state}
 
 \em I originally had this above, but these notes ended up being longer than expected.  Thus I am moving this to the end here for the sake of space. \em 
 \par
