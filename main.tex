@@ -1,0 +1,466 @@
+\documentclass[12pt]{revtex4-2}
+\usepackage[utf8]{inputenc}
+
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+% \usepackage{natbib}
+\usepackage{listings}
+\usepackage{verbatim}
+\usepackage[margin=1in]{geometry}
+\setlength{\parindent}{0pt}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\real}{\text{Re}}
+\newcommand{\imag}{\text{Im}}
+\newcommand{\Tr}{\text{Tr}}
+
+\begin{document}
+
+\title{Notes on: Topology and Berry Phase}
+\author{Joseph Roll}
+\affiliation{University of Texas at Austin}
+
+\begin{abstract}
+    These notes help gain some insight into Berry phase, Berry curvature, and related topological effects.  This arises often with condensed matter systems such as topological insulators and the anamolous hall effect.  These notes work through Chapters 2 and 5 of \emph{Modern Quantum Mechanics} by Sakurai and Napolitano for deriving our general expressions.  Then these notes work through Chapters 13 and 14 of \emph{Modern Condensed Matter Physics} by Girvin and Yang for applications of these expressions to a crystal.
+\end{abstract}
+
+\maketitle
+
+\section{Adiabatic theorem}
+These whole notes rest on the adiabatic theorem's result, it is basically the first step in this whole process, so it is beneficial to understand exactly what it is and how we can derive it.  In plain English, we can say that: \emph{If we start in some eigenstate of our Hamiltonian, and slowly vary this system we will end in a corresponding (the same up to a phase) eigenstate of our final Hamiltonian}. \par
+
+This idea of fast and slow variations is often mysterious, what exactly do we mean by \emph{fast} or \emph{slow}?  We can get a bit more specific now.  We will walk through Sections 2.1.1 (Time-Evolution Operator), 2.1.2 (Schrodinger Equation), 5.6.1 (Sudden Approximation), and 5.6.2 (Adiabatic Approximation) from \emph{Modern Quantum Mechanics} by Sakurai and Napolitano.
+
+\subsection{Time-evolution operator}
+How some state behaves over time is the underpinning of these whole notes, so it is beneficial to briefly review the time-evolution operator. \par 
+
+Let a state ket $|\alpha\rangle$ at some time $t_0$ be denoted $|\alpha,t_0\rangle$.  Then at some later time we will expect this state to change.  Keeping track of where we came from, if we are at some later time $t > t_0$, our ket will be denoted $|\alpha,t_0;t\rangle$.  We can think of this in terms of a time-evolution operator $\mathcal{U}(t,t_0)$ that satisfies
+\begin{equation}
+    |\alpha,t_0;t\rangle = \mathcal{U}(t,t_0)|\alpha,t_0\rangle.
+\end{equation}
+
+It is critical to take a moment to consider if $\mathcal{U}$ should be unitary.  Suppose that at time $t_0$ our state ket is expanded in terms of the eigenkets of some observable $A$:
+\begin{equation}
+    |\alpha,t_0\rangle = \sum_{a'}c_{a'}(t_0)|a'\rangle.
+\end{equation}
+
+Likewise, at some later time, we have 
+\begin{equation}
+    |\alpha,t_0;t\rangle = \sum_{a'}c_{a'}(t)|a'\rangle.
+\end{equation}
+
+Unless $A$ commutes with the Hamiltonian, we will have these coefficients change with time 
+\begin{equation}
+    |c_{a'}(t_0)| \neq |c_{a'}(t_0)|.
+\end{equation}
+
+However, we do always assume that we have a normalized state.  This implies that even though each component is not guaranteed to be equal, we must have 
+\begin{equation}
+    \sum_{a'}|c_{a'}(t_0)|^2 = \sum_{a'}|c_{a'}(t)|^2.
+\end{equation}
+
+So if we are properly normalized, a more familiar (bra-ket) way to put this is 
+\begin{equation}
+    \langle \alpha , t_0 | \alpha,t_0\rangle = 1 \implies \langle \alpha , t_0 ; t | \alpha,t_0 ; t\rangle = 1.
+\end{equation}
+
+This property is guaranteed if the time-evolution operator is unitary,
+\begin{equation}
+    \mathcal{U}^\dagger(t,t_0)\mathcal{U}(t,t_0) = 1.
+\end{equation}
+
+Justifying this, simply insert $\mathcal{U}^\dagger(t,t_0)\mathcal{U}(t,t_0)$ into our prior inner product.  We also assume that time-evolving a state from $t_0 \to t_1 \to t_2$ is the same as just going $t_0 \to t_2$.  So 
+\begin{equation}
+    \mathcal{U}(t_2,t_0) = \mathcal{U}(t_2,t_1)\mathcal{U}(t_1,t_0) \quad (t_2 > t_1 > t_0).
+\end{equation}
+
+As is common in thinking of quantum mechanical operators and their generators, we can think of an infinitesimal time-evolution 
+\begin{equation}
+    |\alpha,t_0;t_0+dt\rangle = \mathcal{U}(t_0+dt,t_0)|\alpha,t_0\rangle.
+\end{equation}
+
+Since we are assuming that time is a continuous parameter, we can take 
+\begin{equation}
+    \lim_{dt\to0} \mathcal{U}(t_0 + dt , t_0) = 1.
+\end{equation}
+
+We will expect the difference between $\mathcal{U}(t_0+dt,t_0)$ and 1 to be of first order in $dt$; this is the same as in an infinitesimal translation ($\hat{p}$) or an infintesimal rotation ($\hat{L}_z$).  We now claim that we can accomplish all of these requirements through 
+\begin{equation}
+    \mathcal{U}(t_0+dt,t_0) = 1 - i\Omega dt 
+\end{equation}
+
+such that $\Omega$ is Hermitian.  Seeing this satisfies all requirements, our unitarity condition is
+\begin{equation}
+    \mathcal{U}^\dagger(t_0+dt,t_0)\mathcal{U}(t_0+dt,t_0) = (1 + i\Omega dt )(1 - i\Omega dt ) = 1 + \mathcal{O}[(dt)^2].
+\end{equation}
+
+Our composition requirement is 
+\begin{align}
+    \mathcal{U}(t_0+dt_1+dt_2,t_0+dt_1)\mathcal{U}(t_0+dt_1,t_0) &= [1 - i\Omega dt_2][1 - i\Omega dt_1] \\
+    &= 1 - i\Omega (dt_1 + dt_2) + \mathcal{O}[(dt)^2] \\
+    &= \mathcal{U}(t_0+dt_1+dt_2,t_0).
+\end{align}
+
+Note that $\Omega$ has units of frequency.  Classical mechanics has that the generator of time-evolution is the Hamiltonian, so getting our units right (with the motivation how $E=\hbar\omega$), yields
+\begin{equation}
+    \Omega = \frac{H}{\hbar}.
+\end{equation}
+
+So our infinitesimal time-evolution operator can be expressed as 
+\begin{equation}
+    \boxed{ \mathcal{U}(t_0 + dt,t_0) = 1 - i\frac{H}{\hbar}dt }
+\end{equation}
+
+\subsection{Schrodinger equation}
+But what if we want to look beyond our infinitesimal time-evolution?  To do so, we can use the aforementioned composition property for $t_0 \to t \to t+dt$.
+\begin{equation}
+    \mathcal{U}(t+dt,t_0) = \mathcal{U}(t+dt,t)\mathcal{U}(t,t_0) = \left( 1 - i\frac{H}{\hbar}dt \right)\mathcal{U}(t,t_0)
+\end{equation}
+
+where our difference $t-t_0$ does \emph{not} need to be infinitesimal.  Rearranging terms, we have 
+\begin{equation}
+    i\hbar\frac{\mathcal{U}(t+dt,t_0) - \mathcal{U}(t,t_0)}{dt} = H\mathcal{U}(t,t_0).
+\end{equation}
+
+Taking the limit as $dt \to 0$, we get the Schrodinger equation for our time-evolution operator!
+\begin{equation}
+    \boxed{ i\hbar\frac{\partial}{\partial t} \mathcal{U}(t,t_0) = H\mathcal{U}(t,t_0) }
+\end{equation}
+
+This directly leads to the Schrodinger equation for our state ket; to see this, simply multiply by $|\alpha,t_0\rangle$ on the right.
+\begin{equation}
+    i\hbar\frac{\partial}{\partial t} \mathcal{U}(t,t_0)|\alpha,t_0\rangle = H\mathcal{U}(t,t_0)|\alpha,t_0\rangle \implies i\hbar\frac{\partial}{\partial t} |\alpha,t_0;t\rangle = H |\alpha,t_0;t\rangle.
+\end{equation}
+
+We will often work with system where we know the Hamiltonian (honestly that is almost always our starting point in condensed matter), so we can formally solve for $\mathcal{U}(t,t_0)$.  This is just a first-order differential equation, so 
+\begin{equation}
+    \frac{\partial}{\partial t}\mathcal{U}(t,t_0) = \frac{1}{i\hbar}\mathcal{U}(t,t_0) \implies \mathcal{U}(t,t_0) = \exp\left[ -i\frac{H}{\hbar}(t-t_0) \right].
+\end{equation}
+
+However our Hamiltonian may (definitely) be time-dependent!  Thus we can use the first fundamental theorem of calculus:
+\begin{equation}
+    \boxed{ \mathcal{U}(t,t_0) = \exp\left(-\frac{i}{\hbar} \int_{t_0}^t H(t')dt'\right) } 
+\end{equation}
+
+It is important to note here that $H$ is an operator!  So this exponenetial is actually its power series expansion.  However if we assuming that $[H(t_1),H(t_2)]=0$ for all $t_0 \leq t_1,t_2 \leq t $ then we are fine just thinking of our exponential like normal.  Things get more complicated if this commutation does not vanish, however that is not our concern for these notes.
+
+\subsection{Sudden approximation}
+If our Hamiltonian changes very quickly, one can imagine that our system "doesn't have time" to react to this change.  Thus the state of our system before and after the change is essentially the same.  However, even if our initial state was an eigenstate of our Hamiltonian, there is no guarantee (it rarely is) it will be an eigenstate of our transformed Hamiltonian.  To analyze this, we can take our prior Schrodinger equation for the time-evolution operator.  Rewriting this in terms of $t=sT$ for some dimensionless parameter $s$ and our time scale $T$, and defining $\Omega := 1/T$ for simplicity, we get 
+\begin{equation}
+    \frac{\partial}{\partial t} = \frac{\partial}{\partial s}\frac{\partial s}{\partial t} = \frac{1}{T}\frac{\partial}{\partial s}.
+\end{equation}
+
+Thus 
+\begin{equation}
+    i \frac{\partial}{\partial s}\mathcal{U}(t,t_0) = \frac{H}{\hbar/T}\mathcal{U}(t,t_0) = \frac{H}{\hbar\Omega} \mathcal{U}(t,t_0).
+\end{equation}
+
+In the sudden approximation, we take our time scale to $T \to 0$.  This implies that $\hbar\Omega$ will be much larger than the energy scale represented by $H$.  Note that we can redefine our Hamiltonian by adding/subtracting an arbitrary constant (gauge invariance) and we can also introduce some overall phase factor to our state vectors (previously mentioned equivalent class in our Hilbert space).  This means that we can have 
+\begin{equation}
+    \mathcal{U}(t,t_0) \to 1 \quad \text{ as } \quad T\to0.
+\end{equation}
+
+This is because taking $T\to0$, so $\Omega \to \infty$, means that $\partial_s\mathcal{U}=0$.  So $\mathcal{U}$ is a constant.  We can add/subtract whatever we need to our Hamiltonian to make $\mathcal{U}=e^{-(i/\hbar)\int_{t_0}^tH(t')dt'}$ have norm one but possibly still complex.  Then we can multiply everything by complex phase to rotate it to one.  So our approximation (time-evolution operator is the identity) is valid here!  Specifically this is valid when
+\begin{equation}
+    H \ll \hbar\Omega = \frac{\hbar}{T} \implies T \ll \frac{\hbar}{H} = \frac{\hbar}{E_{ab}} = \frac{1}{\omega_{ab}} < \frac{2\pi}{\omega_{ab}}
+\end{equation}
+
+where $E_{ab} = \hbar\omega_{ab}$ is the difference between two relevant eigenvalues of $H$ (avoiding excitations from $a \to b$).  But why include this factor of $2\pi$?  While it seems to be lessening our bounds on acceptable $T$, it makes it more physical as it more closely coorsponds to a full phase cycle in $\mathcal{U}(t,t_0)$.  For no time dependency in $H$, this explicitly becomes
+\begin{equation}
+    \mathcal{U}(T,0) = \exp\left(-i\frac{H}{\hbar}T\right) = \exp\left(-i\omega_{ab}T\right) \overset{T\mapsto 2\pi/\omega_{ab}}{\Longrightarrow} \exp\big[-i(2\pi)\big] = 1.
+\end{equation}
+
+So our sudden approximation is valid when $T \ll 2\pi/\omega_{ab}$.
+
+\subsection{Adiabatic approximation}
+As we are dealing with time-dependencies, it is critical to remember the difference between our instaneous Schrodinger equation and our true Schrodinger equation.
+\begin{gather}
+    \text{Instaneous} \implies H(t)|n,t\rangle = E_n(t)|n,t\rangle \quad \text{for a fixed time $t$} \\
+    \text{True} \implies H(t)|\psi,t\rangle = i\hbar\frac{\partial}{\partial t}|\psi,t\rangle \quad \text{where time is } \textit{not} \text{ fixed}.
+\end{gather}
+
+The goal is now to determine $|\psi,t\rangle$, but that can be quite difficult from our partial differential equation.  As such, we would like to write our true state ket $|\psi,t\rangle$ in terms of these instaneous state kets $|n,t\rangle$.  A reasonable first guess would be to simply write a linear combination.  A guess like this is often called an \emph{ansatz}.
+\begin{equation}
+    |\psi,t\rangle = \sum_n c_n'(t)|n,t\rangle = \sum_n c_n(t)e^{-\frac{i}{\hbar}\int_0^t H(t')dt'}|n,t\rangle = \sum_n c_n(t)e^{-\frac{i}{\hbar}\int_0^t E(t')dt'}|n,t\rangle
+\end{equation}
+
+Note that we redefined our coefficient from $c' \to c$ while pulling out our dynamical phase.  We can do this as our $c$ is still general, and makes things cancel nicely later.  To better emphasize that our phase here, we can write this as
+\begin{equation}
+    |\psi,t\rangle = \sum_n c_n(t)e^{i\theta_n(t)}|n,t\rangle
+\end{equation}
+
+where 
+\begin{equation}
+    \theta_n(t) := -\frac{1}{\hbar}\int_0^t E(t')dt'.
+\end{equation}
+
+Note that we can set $H(t') \mapsto E(t')$ as we are using our instaneous eigenkets as the basis.  Plugging this into our true Schrodinger equation, the LHS yields 
+\begin{align}
+    H(t)|\psi,t\rangle &= H(t)\sum_n c_n(t)e^{i\theta_n(t)}|n,t\rangle \\
+    &= \sum_n c_n(t)e^{i\theta_n(t)}E_n(t)|n,t\rangle.
+\end{align}
+
+Our RHS is a bit more interesting.
+\begin{equation}
+    i\hbar\frac{\partial}{\partial t}|\psi,t\rangle = i\hbar\sum_n\left[\left( \dot{c}_n(t)e^{i\theta_n(t)} - c_n(t)\frac{i E_n(t)}{\hbar}e^{i\theta_n(t)} \right)|n,t\rangle + c_n(t)e^{i\theta_n(t)}\frac{\partial}{\partial t}|n,t\rangle \right]
+\end{equation}
+
+Note the factor of $E_n(t)$ cancels from our LHS and RHS.  This leaves
+\begin{equation}
+    0 = \sum_n e^{i\theta_n(t)}\left[ \dot{c}_n(t)|n,t\rangle + c_n(t)\frac{\partial}{\partial t}|n,t\rangle \right]
+\end{equation}
+
+We can now multiply by $\langle m,t|$ on the left.  Since our states our orthonormal at equal times, we can move things around here to have a differetial equation for $c_n(t)$.
+\begin{align}
+    0 &= \sum_n e^{i\theta_n(t)}\left[ \dot{c}_n(t)\delta_{m,n} + c_n(t)\frac{\partial}{\partial t}|n,t\rangle \right] \\
+    \dot{c}_m(t) &= -\sum_n c_n(t)e^{i[\theta_n(t)-\theta_m(t)]} \langle m,t| \frac{\partial}{\partial t} | n,t\rangle.
+\end{align}
+
+To handle this $\langle m,t | \partial_t | n,t\rangle$ in general, we can take the time-derivative of our fixed time Schrodinger equation.
+\begin{align}
+    H(t)|n,t\rangle = E_n(t)|n,t\rangle &\overset{\partial_t}{\implies} \dot{H}(t)|n,t\rangle + H(t)\frac{\partial}{\partial t}|n,t\rangle = \dot{E}_n(t)|n,t\rangle + E_n(t)\frac{\partial}{\partial t}|n,t\rangle.
+\end{align}
+
+Now multiply by $\langle m,t|$ on the left.  If $m \neq n$, this becomes 
+\begin{gather}
+    \langle m,t|\dot{H}(t)|n,t\rangle + \langle m,t|H(t)\frac{\partial}{\partial t}|n,t\rangle = E_n(t)\langle m,t|\frac{\partial}{\partial t}|n,t\rangle \\
+    \langle m,t|\dot{H}(t)|n,t\rangle + E_m(t)\langle m,t|\frac{\partial}{\partial t}|n,t\rangle = E_n(t)\langle m,t|\frac{\partial}{\partial t}|n,t\rangle \\
+    \langle m,t|\dot{H}(t)|n,t\rangle = \big[ E_n(t) - E_m(t) \big]\langle m,t|\frac{\partial}{\partial t}|n,t\rangle.
+\end{gather}
+
+Therefore we can substitute this into our differential equation for $c(t)$ which yields 
+\begin{align}
+    \dot{c}_m(t) &= -\sum_n c_n(t)e^{i[\theta_n(t)-\theta_m(t)]} \langle m,t| \frac{\partial}{\partial t} | n,t\rangle \\
+    &= -\langle m,t| \frac{\partial}{\partial t} | m,t\rangle c_m(t) - \sum_{n\neq m} c_n(t)e^{i[\theta_n(t)-\theta_m(t)]} \langle m,t| \frac{\partial}{\partial t} | n,t\rangle \\
+    &= -\langle m,t| \frac{\partial}{\partial t} | m,t\rangle c_m(t) - \sum_{n\neq m} c_n(t)e^{i[\theta_n(t)-\theta_m(t)]} \frac{\langle m,t|\dot{H}(t)|n,t\rangle}{E_n(t) - E_m(t)}.
+\end{align}
+
+This is our formal solution!  We can see that as time goes on, the second term mixes other states $\{|n,t\rangle | n\neq m\}$ with $|m,t\rangle$.  It is a hassle to work with this, so we want to be able to ignore this mixing term.  We can do this in general assuming 
+\begin{equation}
+    \boxed{ \left| \frac{\langle m,t|\dot{H}(t)|n,t\rangle}{E_n(t) - E_m(t)} \right| \ll \left| \langle m,t| \frac{\partial}{\partial t} | m,t\rangle \right| \approx \frac{|E_m(t)|}{\hbar} }
+\end{equation}
+
+This is our \emph{adiabatic approximation}.  Assuming this holds, so when our Hamiltonian is varying sufficiently slow, our equation for $c$ is straightforward to solve.
+\begin{equation}
+    \dot{c}_m(t) = -\langle m,t| \frac{\partial}{\partial t} | m,t\rangle c_m(t) \implies c_m(t) = e^{i\gamma_m(t)}
+\end{equation}
+
+where 
+\begin{equation}
+    \gamma_m(t) := i \int_0^t \langle m,t'| \frac{\partial}{\partial t'} | m,t'\rangle dt'.
+\end{equation}
+
+is often called our \emph{geometric phase} as its value depends on our path through parameter space in time (we will show this soon).  It is important to see that $\gamma_m(t)$ is actually real!
+\begin{align}
+    0 &= \frac{\partial}{\partial t}\langle n,t|n,t\rangle \\
+    0 &= \left(\frac{\partial}{\partial t} \langle n,t| \right) | n,t\rangle + \langle n,t| \frac{\partial}{\partial t} | n,t\rangle \\
+    -\left[ \langle n,t|\frac{\partial}{\partial t} | n,t\rangle \right]^* &= \langle n,t| \frac{\partial}{\partial t} | n,t\rangle.
+\end{align}
+
+This implies $\langle n,t | \partial_t | n,t\rangle$ is purely imaginary, so $i\langle n,t | \partial_t | n,t\rangle$ is purely real.  Therefore we have shown our adiabatic theorem: Assuming our Hamiltonian starts in an instaneous state $|\psi,t=t_0\rangle = |n,t=t_0\rangle$, and changes sufficiently slow, then our true state ket at some later $t > t_0$ is simply our instaneous state ket with a phase factor:
+\begin{equation}
+    \boxed{ |\psi,t\rangle = e^{i\gamma_n(t)}e^{i\theta_n(t)}|n,t\rangle }
+\end{equation}
+
+where our geometric phase $\gamma_n(t)$ and dynamical phase $\theta_n(t)$ are defined as 
+\begin{equation}
+    \boxed{ \gamma_n(t) := i \int_0^t \langle n,t'| \frac{\partial}{\partial t'} | n,t'\rangle dt' \qquad \text{and} \qquad \theta_n(t) := -\frac{1}{\hbar}\int_0^t E(t')dt' }
+\end{equation}
+
+\section{Berry phase, Berry connection, and Berry curvature}
+\subsection{Definitions and their motivations}
+
+From here, both referenced textbooks (\emph{Modern Quantum Mechanics} and \emph{Modern Condensed Matter Physics}) discuss a similar derivaation of Berry's phase.  However, \emph{Modern Condensed Matter Physics} seems to skip many steps and indeed starts (without proof) with the adiabatic approximation.  For a better explanation in my opinion, we will work through Section 5.6.3 (Berry's Phase) from \emph{Modern Quantum Mechanics} by Sakurai and Napolitano. \par
+
+In our prior sections, we have assumed that our Hamiltonian is explicitly time-dependent.  Henceforth we will assume that our Hamiltonian, so our resultant energies and eigenkets, is a function of some set of time-dependent parameters $\mathbf{R}(t)$.  Through the chain rule, we must rewrite our prior derivative with respect to time as 
+\begin{equation}
+    \frac{\partial}{\partial t} = \sum_i \frac{\partial}{\partial R_i}\frac{\partial R_i}{\partial t} = \nabla_{\mathbf{R}} \cdot \frac{\partial \mathbf{R}}{\partial t}.
+\end{equation}
+
+Since each parameter is $R_i = R_i(t)$, we can also say how 
+\begin{equation}
+    \frac{\partial \mathbf{R}}{\partial t} = \frac{d\mathbf{R}}{dt}.
+\end{equation}
+
+Thus our geometric phase can be written as 
+\begin{align}
+    \gamma_n(T) &:= i \int_0^T \langle n,t | \nabla_\mathbf{R} | n,t \rangle \cdot \frac{d\mathbf{R}}{dt}dt \\
+    &= i \int_{\mathbf{R}(0)}^{\mathbf{R}(T)} \langle n,t | \nabla_\mathbf{R} | n,t \rangle \cdot d\mathbf{R}
+\end{align}
+
+We have chosen our final time $T$ on purpose as we will now assume our path in parameter space encloses a loop (where we obviously traverse this loop slow enough to justify our use of the adiabatic approximation).  So $\mathbf{R}(0) = \mathbf{R}(T)$ where $T$ is our period about our curve $C$.  Thus we can write this as 
+\begin{equation}
+    \gamma_n(C) = i\oint_C \langle n,t | \nabla_\mathbf{R} | n,t \rangle \cdot d\mathbf{R}.
+\end{equation}
+
+For reasons soon to be clear, we want to use Stoke's theorem on this integral.  To this end we will now define 
+\begin{equation}\label{eqn:berry_connection}
+    \mathcal{A}_n(\mathbf{R}) := i\langle n,t | \nabla_\mathbf{R} | n,t \rangle
+\end{equation}
+
+which is called the \emph{Berry connection}.  This allows us to write this integral as 
+\begin{equation}\label{eqn:berry_phase}
+    \boxed{\gamma_n(C) = \oint_C \mathcal{A}_n(\mathbf{R}) \cdot d\mathbf{R} = \oint_S [\nabla_\mathbf{R} \times \mathcal{A}_n(\mathbf{R})] \cdot d\mathbf{a}}
+\end{equation}
+
+where $S$ is the surface enclosed by our loop $C$.  This invites us to define the \emph{Berry curvature}
+\begin{equation}\label{eqn:berry_curvature}
+    \boxed{\Omega_n(\mathbf{R}) = \nabla_\mathbf{R} \times \mathcal{A}_n(\mathbf{R})}
+\end{equation}
+
+A critical observation is to realize that our typical use of this notation from electromagnetism implies some gauge invariance; if $\mathbf{A}$ is our magnetic vector potential $(\mathbf{B} = \nabla\times\mathbf{A})$ then $\mathbf{A} \mapsto \mathbf{A} + \nabla f$ still yields the same magnetic field $\mathbf{B}$ for any scalar field $f$.  Here we see
+\begin{equation}
+    |n,t\rangle \mapsto e^{i\delta(\mathbf{R})}|n,t\rangle \implies \mathcal{A}_n(\mathbf{R}) \mapsto \mathcal{A}_n(\mathbf{R}) - \nabla_\mathbf{R}\delta(\mathbf{R}).
+\end{equation}
+
+Thus $\mathcal{A}_n(\mathbf{R})$ is not gauge invariant, but both $\gamma_n(C)$ and $\Omega_n(\mathbf{R})$ are!  Importantly our value of $\gamma_n(C)$ only depends on our path from $t=0\to T$ which is why we called it the geometric phase.  Generalizations that popularized these ideas were made by physicist Michael Berry in the 1980's, which is why his name appears so much.  It is also why many people refer to $\gamma_n(C)$ as the \emph{Berry phase}.
+
+\subsection{General expression for Berry curvature}
+In later sections of these notes we will reveal the importance of our Berry curvature, so it is good to see how one may calculate it for some general system.  Since the curl of a gradient vanishes, we have 
+\begin{align}
+    \Omega_n(\mathbf{R}) &= \nabla_\mathbf{R} \times \Big( i\langle n,t | \nabla_\mathbf{R} | n,t \rangle \Big) \\
+    &= i \nabla_\mathbf{R} \times \Big(\langle n,t|\partial_m|n,t\rangle e_m \Big) \\
+    &= i \epsilon_{ijk}\partial_i\langle n,t| \partial_j | n,t \rangle e_k \\
+    &= i \epsilon_{ijk}\Big(\partial_i\langle n,t|\Big) \partial_j | n,t \rangle e_k  + i \epsilon_{ijk}\langle n,t| \Big( \partial_i \partial_j | n,t \rangle\Big) e_k \\
+    &= i \epsilon_{ijk}\Big(\partial_i\langle n,t|\Big) \partial_j | n,t \rangle e_k  + i \langle n,t| \epsilon_{ijk} \partial_i \partial_j| n,t \rangle e_k \\
+    &= i\Big( \nabla_\mathbf{R}\langle n,t| \Big) \times \Big( \nabla_\mathbf{R} |n,t\rangle \Big) + i \langle n,t| \nabla_\mathbf{R} \times \Big( \nabla_\mathbf{R}|n,t\rangle \Big) \\
+    &= i\Big( \nabla_\mathbf{R}\langle n,t| \Big) \times \Big( \nabla_\mathbf{R} |n,t\rangle \Big).
+\end{align}
+
+For each of these bra's and ket's we will insert our complete basis $\{m,t\rangle\}$.  We do this within our Levi-Civita tensor as this cross product can be confusing when mixing it with our Dirac notation.
+\begin{align}
+    \Omega_n(\mathbf{R}) &= i\epsilon_{ijk}\Big(\partial_i\langle n,t|\Big) \Big(\partial_j |n,t\rangle\Big)e_k \\
+    &= i\sum_{m\neq n}\epsilon_{ijk}\Big(\partial_i\langle n,t|\Big)|m,t\rangle \langle m,t| \Big(\partial_j |n,t\rangle\Big)e_k \\
+    &= i\sum_{m\neq n}\epsilon_{ijk}\bigg[\Big(\partial_i\langle n,t|\Big)|m,t\rangle\bigg] \bigg[\langle m,t| \Big(\partial_j |n,t\rangle\Big)\bigg]e_k \\
+    &= i\sum_{m\neq n}\Big( \nabla_\mathbf{R}\langle n,t| \Big)|m,t\rangle \times \langle m,t|\Big(|\nabla_\mathbf{R}|n,t\rangle \Big)
+\end{align}
+
+where we exclude $m=n$ from our sum as that yields a constant $\langle n,t|n,t\rangle=1$.  Using the same trick from where we showed that $\mathcal{A}$ is purely real, 
+\begin{equation}
+    \nabla_\mathbf{R}\langle n,t|n,t\rangle=0 \implies \Big( \nabla_\mathbf{R}\langle n,t| \Big)|n,t\rangle = -\langle n,t| \nabla_\mathbf{R} |n,t\rangle.
+\end{equation}
+
+Since these vectors differ by a constant factor, their cross product vanishes.  It also allows us to rewrite this expression for the Berry curvature as 
+\begin{equation}
+    \Omega_n(\mathbf{R}) = -i\sum_{m\neq n} \langle n,t | \nabla_\mathbf{R} | m,t\rangle \times \langle m,t| \nabla_\mathbf{R} | n,t\rangle.
+\end{equation}
+
+Recall how $|n,t\rangle$ satisfies our instaneous Schrodinger equation: $H(t)|n,t\rangle = E_n(t)|n,t\rangle$.  Taking the $\mathbf{R}-$gradient of this on both sides yields 
+\begin{equation}
+    \big(\nabla_\mathbf{R} H\big)|n,t\rangle + H\Big(\nabla_\mathbf{R} |n,t\rangle\Big) = \Big(\nabla_\mathbf{R} E_n\Big)|n,t\rangle + E_n\nabla_\mathbf{R}|n,t\rangle. 
+\end{equation}
+
+Multiplying by $\langle m,t|$ with $m\neq n$ on the left yields 
+\begin{multline}
+    \langle m,t| \big( \nabla_\mathbf{R} H \big) |n,t\rangle + E_m\langle m,t|\nabla_\mathbf{R}|n,t\rangle = E_n\langle m,t | \nabla_\mathbf{R} | n,t\rangle \\
+    \implies \langle m,t| \nabla_\mathbf{R} | n,t\rangle = \frac{\langle m,t| \big( \nabla_\mathbf{R} H \big) |n,t\rangle}{E_n - E_m}.
+\end{multline}
+
+So we can finally write 
+\begin{equation}
+    \boxed{\gamma_n(C) = \oint_S \Omega_n(\mathbf{R}) \cdot d\mathbf{a}}
+\end{equation}
+
+where 
+\begin{equation}
+    \boxed{\Omega_n(\mathbf{R}) = i\sum_{m \neq n} \frac{\langle n,t | \big( \nabla_\mathbf{R}H \big) | m,t\rangle \times \langle m,t|\big( \nabla_\mathbf{R} H \big) | n,t \rangle}{(E_m - E_n)^2}}
+\end{equation}
+
+\subsection{Computationally viable approach to Berry curvature}
+While this general expression for the Berry curvature is nice, it can be computationally difficult as it requires gradients and also requires information of all states and their energies.  An alternative way to calculate this quantity is outlined in [JAPANESE PAPER HERE], often called the \emph{Fukui method}, whose process is outlined here.  It is often (and in my research) used to calculate Berry curvature in momentum space, so we will define our parameter space as $\mathbf{k} = (k_1,k_2)$. \par
+
+A reasonable approach to calculate the Berry curvature on some discrete lattice is to just use the expressions derived in these notes.  Our Berry connection $\mathcal{A}_\mu$ ($\mu=1,2$) is from Eqn. \ref{eqn:berry_connection} and our Berry curvature $\Omega_{12}$ is from Eqn. \ref{eqn:berry_curvature}.
+\begin{gather}
+    \mathcal{A}_\mu(\mathbf{k}) = i\langle n(\mathbf{k}) | \partial_\mu | n(\mathbf{k})\rangle \\
+    \Omega_{12}(\mathbf{k}) = \partial_1\mathcal{A}_2(\mathbf{k}) - \partial_2\mathcal{A}_1(\mathbf{k})
+\end{gather}
+
+where $|n(\mathbf{k})\rangle$ is our normalized wavevector which satisfies $H(\mathbf{k})|n(\mathbf{k})\rangle = E_n(\mathbf{k})|n(\mathbf{k})\rangle$.  This seems fine, but we must note that our discussions have all been for a continuum in $\mathbf{k}$.  This is a reasonable approximation, but is \emph{not} how we would approach this computationally; we will only know $|n(\mathbf{k})\rangle$ on a discrete set of points $\mathbf{k} \in \{\mathbf{k}_{ij} \, | \, 0 \leq i < N_i, \, 0 \leq j < N_j\}$ where $\mathbf{k} = (k_i,k_j)$ such that there are $N_i$ points along $k_1$ and $N_j$ points along $k_2$.  \par
+
+One may want to determine our berry connection by simply using a finite difference derivative 
+\begin{equation}
+    \mathcal{A}_\mu(\mathbf{k}) \Delta_\mu = i\langle n(\mathbf{k}) | \delta_\mu | n(\mathbf{k}) \rangle
+\end{equation}
+
+such that $\delta_\mu f(\mathbf{k}) := f(\mathbf{k} + \hat{\mathbf{k}}_\mu)$ is our difference operator along $\hat{\mathbf{k}}_\mu$ and $\Delta_\mu$ is the distance between these adjacent points in parameter space along $\hat{\mathbf{k}}_\mu$.  Note that for this difference of $|n(\mathbf{k})\rangle$ to be meaningful, we will need to choose a local gauge such that $|n(\mathbf{k})\rangle$ is smooth.  From this local gauge, we could use more finite differences to determine our berry curvature 
+\begin{align}
+    \Omega_{12}(\mathbf{k}) &= \left[ \frac{\delta_1 \mathcal{A}_2(\mathbf{k})}{\Delta_1} - \frac{\delta_2 \mathcal{A}_1(\mathbf{k})}{\Delta_2} \right] \\
+    &= \frac{\delta_1 \mathcal{A}_2(\mathbf{k})\Delta_2 - \delta_2 \mathcal{A}_1(\mathbf{k})\Delta_1}{\Delta_1\Delta_2} \\
+    &= i\frac{\delta_1 \langle n(\mathbf{k})|\delta_2|n(\mathbf{k})\rangle - \delta_2 \langle(\mathbf{k})|\delta_1|n(\mathbf{k})\rangle}{\Delta_1\Delta_2}.
+\end{align}
+
+This can absolutelly work, but taking these numerical derivatives can be computationally expensive.  An another approach will utilize Stokes' Theorem to find the magnitude of our berry curvature (flux) on some small loop of adjacent points; a.k.a. our different expressions for the berry phase as shown in Eqn. \ref{eqn:berry_phase}.
+\begin{equation}
+    \oint_S \Omega_{12}(\mathbf{k})\cdot d\mathbf{a} = \oint_C \mathcal{A}(\mathbf{k})\cdot d\mathbf{k} \implies \Omega_{12}(\mathbf{k}) \approx \frac{1}{|d\mathbf{a}|}\oint_C \mathcal{A}(\mathbf{k})\cdot d\mathbf{k}
+\end{equation}
+
+where our line integral $C$ will be a small loop about adjacent points and $|d\mathbf{a}|$ will be the area enclosed by this loop.  One may expect an absolute value on our $\Omega_{12}$ term.  We do not include this as we are finding the average flux of our $\Omega_{12}$ vector field through our surface, which can be negative. This now relies on finding a more efficient way to calculate $\mathcal{A}(\mathbf{k})\cdot d\mathbf{k}$ for a loop of adjacent points. \par 
+
+To this end, we will first expand our difference operator within the berry connection
+\begin{align}
+    \mathcal{A}_\mu \Delta_\mu &= i\langle n(\mathbf{k}) | \delta_\mu | n(\mathbf{k}) \rangle \\
+    \mathcal{A}_\mu \Delta_\mu &= i\big[ \langle n(\mathbf{k}) | n(\mathbf{k} + \hat{\mathbf{k}}_\mu) \rangle - \langle n(\mathbf{k}) | n(\mathbf{k}) \rangle \big] \\
+    i\mathcal{A}_\mu \Delta_\mu &= \big[1 - \langle n(\mathbf{k}) | n(\mathbf{k} + \hat{\mathbf{k}}_\mu) \rangle\big]
+\end{align}
+
+which uses our assumption of a normalized wavevector.  Rearranging terms yields 
+\begin{equation}\label{eqn:fukui_1}
+    \langle n(\mathbf{k}) | n(\mathbf{k} + \hat{\mathbf{k}}_\mu) \rangle = 1 - i\mathcal{A}_\mu \Delta_\mu.
+\end{equation}
+
+This makes it seem like we can just look at the (negative) imaginary component of a dot product instead of taking many partial derivatives.  However, doing so actually will eventually break the $U(1)$ gauge symmetry $|n(\mathbf{k})\rangle \mapsto e^{i \alpha_\mathbf{k}}|n(\mathbf{k})\rangle$ of our berry curvature!  To show this, let our loop go about three adjacent points in a triangle.  These points are denoted by $\mathbf{k}_a,\mathbf{k}_b$, and $\mathbf{k}_c$ with an enclosed area of $A$.  Integrating about the loop $\mathbf{k}_a \to \mathbf{k}_b \to \mathbf{k}_c \to \mathbf{k}_a$, denoted by $C$, our berry curvature should be 
+\begin{equation}
+    \Omega_{12}(C) = -\frac{1}{A}\Big\{ \imag\big[\langle n(\mathbf{k}_a)| n(\mathbf{k}_b)\rangle\big] + \imag\big[\langle n(\mathbf{k}_b)| n(\mathbf{k}_c)\rangle \big] + \imag\big[\langle n(\mathbf{k}_c)| n(\mathbf{k}_a)\rangle\big] \Big\}.
+\end{equation}
+
+But applying our gauge symmetry of $e^{i\alpha_\mathbf{k}} = \cos(\alpha_\mathbf{k}) + i\sin(\alpha_\mathbf{k})$ causes cross terms for each imaginary component.  Define $\langle n(\mathbf{k}_a)|n(\mathbf{k}_b)\rangle := x + iy$.  Then
+\begin{gather}
+    \langle n(\mathbf{k}_a)|n(\mathbf{k}_b)\rangle \mapsto e^{i(\alpha_{\mathbf{k}_b} - \alpha_{\mathbf{k}_b})} \langle n(\mathbf{k}_a)|n(\mathbf{k}_b)\rangle \\
+    \imag\big[\langle n(\mathbf{k}_a)| n(\mathbf{k}_b)\rangle\big] \mapsto y\cos(\alpha_{\mathbf{k}_b} - \alpha_{\mathbf{k}_b}) + x\sin(\alpha_{\mathbf{k}_b} - \alpha_{\mathbf{k}_b}).
+\end{gather}
+
+Applying this to all three parts of our line integral will not actually cancel our our phase dependencies, breaking our important $U(1)$ symmetry; recall this symmetry is the only reason for the berry curvature's physical significance.  As such, we need something that can recover Eqn. \ref{eqn:fukui_1} but still hold our gauge symmetry.  The answer to this is to take 
+\begin{equation}
+    \boxed{\mathcal{A}_\mu \Delta_\mu := \arg \langle n(\mathbf{k})|n(\mathbf{k} + \hat{\mathbf{k}}_\mu) \rangle }
+\end{equation}
+
+Where did our minus sign go?  Since this is phase independent, which we will show shortly, we can just have a phase that makes it positive. Then
+\begin{align}
+    \oint_S \Omega_{12} \cdot d\mathbf{a} &= \oint_C \mathcal{A}\cdot d\mathbf{k} \\
+    &= \arg\langle n(\mathbf{k}_a)|n(\mathbf{k}_b)\rangle + \arg\langle n(\mathbf{k}_b)|n(\mathbf{k}_c)\rangle + \arg\langle n(\mathbf{k}_c)|n(\mathbf{k}_a)\rangle \\
+    &= \arg \big[\langle n(\mathbf{k}_a)|n(\mathbf{k}_b)\rangle\langle n(\mathbf{k}_b)|n(\mathbf{k}_c)\rangle\langle n(\mathbf{k}_c)|n(\mathbf{k}_a)\rangle \big].
+\end{align}
+
+Thus making a gauge transformation means that we are adding the following quantity to our berry curvature: 
+\begin{equation}
+    (\alpha_{\mathbf{k}_b} - \alpha_{\mathbf{k}_a}) + (\alpha_{\mathbf{k}_c} - \alpha_{\mathbf{k}_b}) + (\alpha_{\mathbf{k}_a} - \alpha_{\mathbf{k}_c}) = 0.
+\end{equation}
+
+So we can keep our $U(1)$ symmetry while being able to only use inner products instead of our numerical differentiations!  Rearranging terms, the average berry curvtaure flux through a small loop of adjacent points is 
+\begin{equation}
+    \Omega_{12}(C) = \frac{1}{A} \arg \left[\prod_j \big\langle n(\mathbf{k}_j)| n(\mathbf{k}_{j+1}) \big\rangle \right]
+\end{equation}
+
+where $A$ is the area enclosed within our small loop and $j$ indexes the points about this loop. This is the approach outlined in [reference paper here], however they have slightly different definitions and include more details such as energy splitting criteria and an approximate critical mesh size.  \emph{But this does not tell us the berry curvature at each lattice point, it only tells us the average berry curvature flux in the areas between points!}  Thus to determine the value of our berry curvature at each lattice point, we simply take the average of the areas adjacent to each point.  Explicitly, this becomes
+\begin{equation}
+    \boxed{ \Omega_{12}(\mathbf{k}) = \frac{1}{n} \sum_{\ell} \frac{1}{A_\ell}\arg \left[\prod_j \big\langle n(\mathbf{k}_j^\ell)| n(\mathbf{k}_{j+1}^\ell) \big\rangle \right] }
+\end{equation}
+
+where $\ell$ indexes our adjacent loops and there are $n$ adjacent loops.  So for a square lattice, one would take the average of the $n=4$ adjacent inter-point squares.  For a triangular lattice, one would take the average of the $n=6$ adjacent inter-point triangles.  Note that we keep an index on our area $A_\ell$ as this will in also work for a non-uniform grid.  For the two most common grids, square and triangular, if we have a nearest-neighbor distance of $\Delta$, then our area is 
+\begin{align}
+    \text{Square} &\implies A := \Delta^2 \\
+    \text{Triangular} &\implies A := \frac{\sqrt{3}\Delta^2}{4}.
+\end{align}
+
+\subsection{Physical implication of Berry curvature}
+
+While this has been a nice exploration into time-dependent systems, who cares?  I do, which is why I am writing these notes.  As we are applying these ideas to crystals, is it beneficial to see how a non-zero Berry curvature affects Bloch states.  This is done nicely in \emph{Modern Condensed Matter Physics} in Chapter 13.4.
+
+\end{document}
